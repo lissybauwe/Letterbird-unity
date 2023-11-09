@@ -48,6 +48,7 @@ public class ErgometerScript : MonoBehaviour
 
             if (i == 170) // setRes at 1.5s
             {
+                UnityEngine.Debug.Log("HR: " + hr + ", RPM: " + rpm);
                 SetRes(bikeRes);
             }
 
@@ -69,8 +70,8 @@ public class ErgometerScript : MonoBehaviour
     static int comPortNumber = 3;
     static IntPtr comPort;
     static byte address = 0;
-    public static int hr = 0; //variable to read in other class to access HeartRate
-    public static int rpm = 0; //variable to read in other class to access RPM
+    public int hr = 0; //variable to read in other class to access HeartRate
+    public int rpm = 0; //variable to read in other class to access RPM
     static bool newErgometer = false;
 
     [DllImport("kernel32.dll")]
