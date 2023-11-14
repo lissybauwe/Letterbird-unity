@@ -12,7 +12,7 @@ public class ErgometerScript : MonoBehaviour
 
     private int i;
     private bool threadWorking = false;
-    public int bikeRes = 60; //variable to set in other class to change Resistance
+    public int bikeRes = 30; //variable to set in other class to change Resistance
     private static bool opencomportDone = false;
 
     private void Start()
@@ -33,7 +33,17 @@ public class ErgometerScript : MonoBehaviour
 
             if (i == 70) // read RPM at 0.7s
             {
-                rpm = ReadRPM457();
+                int temp_rpm = ReadRPM457();
+                if(temp_rpm != 0)
+                {
+                    if(temp_rpm > rpm - 10 || temp_rpm < rpm + 10)
+                    {
+                        if(temp_rpm != bikeRes)
+                        {
+                            rpm = temp_rpm;
+                        }
+                    }
+                }
             }
 
             if (i == 110) // request HR at 1s
@@ -67,7 +77,7 @@ public class ErgometerScript : MonoBehaviour
     static int isReadingRPM = 0;
     static bool dontReadRPM = false;
     static int bikeResistance = 0;
-    static int comPortNumber = 3;
+    static int comPortNumber = 4; //edit this number to the fitting port number u put the usb cabel in!
     static IntPtr comPort;
     static byte address = 0;
     public int hr = 0; //variable to read in other class to access HeartRate
@@ -303,10 +313,15 @@ public class ErgometerScript : MonoBehaviour
         COMMTIMEOUTS timeouts;
         string comName = "\\\\.\\COM" + comPortNumber;
 
+
+        UnityEngine.Debug.Log("Test");
+
         comPort = CreateFile(comName, 0x80000000 | 0x40000000, 0, IntPtr.Zero, 3, 0, IntPtr.Zero);
 
         if (comPort == IntPtr.Zero)
         {
+
+            UnityEngine.Debug.Log("IntPtrZero");
             return;
 
         }
@@ -316,6 +331,7 @@ public class ErgometerScript : MonoBehaviour
 
         if (GetCommState(comPort, ref deviceControlBlock) == false)
         {
+            UnityEngine.Debug.Log("deviceControlBlock");
             return;
         }
 
@@ -326,6 +342,8 @@ public class ErgometerScript : MonoBehaviour
         deviceControlBlock.fRtsControl = 0;
         if (SetCommState(comPort, ref deviceControlBlock) == false)
         {
+
+            UnityEngine.Debug.Log("setCommState");
             return;
         }
 
@@ -338,6 +356,8 @@ public class ErgometerScript : MonoBehaviour
         {
             return;
         }
+
+        UnityEngine.Debug.Log("openComportDone");
 
         opencomportDone = true;
 
@@ -358,7 +378,6 @@ public class ErgometerScript : MonoBehaviour
     static int lastRpm;
     static void Main()
     {
-        comPortNumber = 3;
         newErgometer = false;
 
         Thread threadComPort = new Thread(OpenComPort2);

@@ -11,10 +11,6 @@ public class Parallax : MonoBehaviour
     float startZ;
     public float speed;
 
-    Vector2 travel => (Vector2)cam.transform.position - startPosition;
-
-    Vector2 ParallaxFactor;
-
     public void Start()
     {
         startPosition = transform.position;
