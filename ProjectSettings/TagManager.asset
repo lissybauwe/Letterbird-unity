@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - big_enemy
+  - small_enemy
+  - fancy_letter
+  - normal_letter
   layers:
   - Default
   - TransparentFX

@@ -2,13 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Parallax : MonoBehaviour
+public class Item_Movement : MonoBehaviour
 {
-
-    public Camera cam;
-    public Transform subject;
-    Vector2 startPosition;
     public float speed;
+    Vector2 startPosition;
 
     public void Start()
     {
@@ -21,5 +18,4 @@ public class Parallax : MonoBehaviour
         startPosition.x -= speed;
         transform.position = startPosition * 0.01f;
     }
-
 }

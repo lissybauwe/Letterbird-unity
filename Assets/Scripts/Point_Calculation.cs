@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class Point_Calculation : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public float points = 0f;
 
-    // Update is called once per frame
-    void Update()
+    private void OnCollisionEnter(Collision collision)
     {
-        
+        if (collision.gameObject.CompareTag("big_enemy"))
+        {
+            // Subtract points when colliding with the big enemy
+            // You can replace this with your scoring system logic
+            points -= 100f;
+
+            Debug.Log("Points: "+points);
+        }
     }
 }

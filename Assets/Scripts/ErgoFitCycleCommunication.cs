@@ -58,7 +58,7 @@ public class ErgometerScript : MonoBehaviour
 
             if (i == 170) // setRes at 1.5s
             {
-                UnityEngine.Debug.Log("HR: " + hr + ", RPM: " + rpm);
+                //UnityEngine.Debug.Log("HR: " + hr + ", RPM: " + rpm);
                 SetRes(bikeRes);
             }
 
@@ -314,7 +314,7 @@ public class ErgometerScript : MonoBehaviour
         string comName = "\\\\.\\COM" + comPortNumber;
 
 
-        UnityEngine.Debug.Log("Test");
+        //UnityEngine.Debug.Log("Test");
 
         comPort = CreateFile(comName, 0x80000000 | 0x40000000, 0, IntPtr.Zero, 3, 0, IntPtr.Zero);
 
@@ -343,7 +343,7 @@ public class ErgometerScript : MonoBehaviour
         if (SetCommState(comPort, ref deviceControlBlock) == false)
         {
 
-            UnityEngine.Debug.Log("setCommState");
+            //UnityEngine.Debug.Log("setCommState");
             return;
         }
 
@@ -357,7 +357,7 @@ public class ErgometerScript : MonoBehaviour
             return;
         }
 
-        UnityEngine.Debug.Log("openComportDone");
+        //UnityEngine.Debug.Log("openComportDone");
 
         opencomportDone = true;
 
