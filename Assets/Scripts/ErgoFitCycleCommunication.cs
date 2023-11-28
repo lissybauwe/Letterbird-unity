@@ -11,14 +11,12 @@ public class ErgometerScript : MonoBehaviour
 {
 
     private int i;
-    private bool threadWorking = false;
     public int bikeRes = 30; //variable to set in other class to change Resistance
     private static bool opencomportDone = false;
 
     private void Start()
     {
         Main();
-        int i = 0;
         opencomportDone = false;
     }
 
@@ -75,14 +73,11 @@ public class ErgometerScript : MonoBehaviour
     }
 
     static int isReadingRPM = 0;
-    static bool dontReadRPM = false;
-    static int bikeResistance = 0;
     static int comPortNumber = 4; //edit this number to the fitting port number u put the usb cabel in!
     static IntPtr comPort;
     static byte address = 0;
     public int hr = 0; //variable to read in other class to access HeartRate
     public int rpm = 0; //variable to read in other class to access RPM
-    static bool newErgometer = false;
 
     [DllImport("kernel32.dll")]
     static extern IntPtr CreateFile(string lpFileName, uint dwDesiredAccess, uint dwShareMode, IntPtr lpSecurityAttributes, uint dwCreationDisposition, uint dwFlagsAndAttributes, IntPtr hTemplateFile);
@@ -365,21 +360,17 @@ public class ErgometerScript : MonoBehaviour
 
     static void SetRes(int bikeResistance)
     {
-        dontReadRPM = true;
         while (isReadingRPM != 0)
         {
             Thread.Sleep(1);
         }
 
         bikeResistance = SetResistance457(bikeResistance);
-        dontReadRPM = false;
     }
 
     static int lastRpm;
     static void Main()
     {
-        newErgometer = false;
-
         Thread threadComPort = new Thread(OpenComPort2);
         threadComPort.Start();
 
