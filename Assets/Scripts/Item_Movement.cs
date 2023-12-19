@@ -12,9 +12,9 @@ public class Item_Movement : MonoBehaviour
         startPosition = transform.position;
     }
 
-    public void Update()
+    public void FixedUpdate()
     {
-        startPosition.x -= (speed * 0.01f);
+        startPosition.x -= (speed * 0.05f);
         transform.position = startPosition;
     }
 }

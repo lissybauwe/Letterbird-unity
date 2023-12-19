@@ -263,7 +263,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bikeRes: 60
-  hr: 0
+  hr: 200
   rpm: 0
 --- !u!61 &6767987366071341182
 BoxCollider2D:

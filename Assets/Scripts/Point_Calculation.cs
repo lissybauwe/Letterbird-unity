@@ -14,7 +14,7 @@ public class Point_Calculation : MonoBehaviour
             points -= 500f;
             Destroy(collision.gameObject);
 
-            Debug.Log("Points: "+points);
+            //Debug.Log("Points: "+points);
         }
 
         if (collision.gameObject.CompareTag("small_enemy"))
@@ -23,7 +23,7 @@ public class Point_Calculation : MonoBehaviour
             points -= 100f;
             Destroy(collision.gameObject);
 
-            Debug.Log("Points: " + points);
+            //Debug.Log("Points: " + points);
         }
 
         if (collision.gameObject.CompareTag("normal_letter"))
@@ -32,7 +32,7 @@ public class Point_Calculation : MonoBehaviour
             points += 100f;
             Destroy(collision.gameObject);
 
-            Debug.Log("Points: " + points);
+            //Debug.Log("Points: " + points);
         }
 
         if (collision.gameObject.CompareTag("fancy_letter"))
@@ -41,7 +41,7 @@ public class Point_Calculation : MonoBehaviour
             points += 500f;
             Destroy(collision.gameObject);
 
-            Debug.Log("Points: " + points);
+            //Debug.Log("Points: " + points);
         }
     }
 }

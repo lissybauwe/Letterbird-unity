@@ -56,7 +56,7 @@ public class ErgometerScript : MonoBehaviour
 
             if (i == 170) // setRes at 1.5s
             {
-                //UnityEngine.Debug.Log("HR: " + hr + ", RPM: " + rpm);
+                UnityEngine.Debug.Log("HR: " + hr + ", RPM: " + rpm);
                 SetRes(bikeRes);
             }
 

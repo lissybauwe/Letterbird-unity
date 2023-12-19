@@ -68,7 +68,7 @@ public class Bike_Resistance : MonoBehaviour
     void FixedUpdate()
     {
         //Load Levels will be calculated by seconds
-        if(i >= 250) //translates round about to a second
+        if(i >= 10) //translates round about to a second (needs to be 50)
         {
             seconds++;
             //Debug.Log("!!! " + seconds);
@@ -105,6 +105,7 @@ public class Bike_Resistance : MonoBehaviour
 
         if (seconds < 120 && lastResCalc != seconds)
         {
+            //Debug.Log("Load LVL 1: " + seconds);
             lastResCalc = seconds;
             //determine BMI to calculate appropriate Load Level; exception made with PAL incase BMI inaccurate
 
@@ -125,6 +126,7 @@ public class Bike_Resistance : MonoBehaviour
 
         if (seconds >=120 && seconds < 240 && lastResCalc != seconds)
         {
+            //Debug.Log("Load LVL 2: " + seconds);
             lastResCalc = seconds;
 
             if(heartRateScript.hr > 0.8 * pulseMax) //exception --> swap to ALC
@@ -154,6 +156,7 @@ public class Bike_Resistance : MonoBehaviour
 
         if (seconds >= 240 && seconds < 300 && lastResCalc != seconds)
         {
+            //Debug.Log("CTL: " + seconds);
             lastResCalc = seconds;
 
             int avg_diff;
@@ -187,8 +190,9 @@ public class Bike_Resistance : MonoBehaviour
         if (seconds >= 300 && seconds < 601 && lastResCalc != seconds)
         {
             lastResCalc = seconds;
+            //Debug.Log("ALC: " + seconds);
 
-            if(heartRateScript.hr > 0.8 * pulseMax)
+            if (heartRateScript.hr > 0.8 * pulseMax)
             {
                 if((alc_timer == 0 || alc_timer <= seconds - 60) && newRes > minRes)
                 {

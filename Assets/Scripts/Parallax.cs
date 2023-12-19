@@ -16,10 +16,10 @@ public class Parallax : MonoBehaviour
 
     }
 
-    public void Update()
+    public void FixedUpdate()
     {
         startPosition.x -= speed;
-        transform.position = startPosition * 0.01f;
+        transform.position = startPosition * 0.05f;
     }
 
 }
