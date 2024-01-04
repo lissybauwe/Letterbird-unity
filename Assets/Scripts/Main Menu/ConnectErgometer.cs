@@ -9,7 +9,8 @@ public class ConnectErgometer : MonoBehaviour
 {
     private int i;
     public int bikeRes = 0; //variable to set in other class to change Resistance
-    private static bool opencomportDone = false;
+    public static bool opencomportDone = false;
+    public bool connected = false;
 
     private void Awake()
     {
@@ -25,6 +26,7 @@ public class ConnectErgometer : MonoBehaviour
     {
         if (opencomportDone)
         {
+            connected = true;
             if (i == 40) // request RPM at 0.5s
             {
                 RequestRPM457();
@@ -57,7 +59,7 @@ public class ConnectErgometer : MonoBehaviour
 
             if (i == 170) // setRes at 1.5s
             {
-                UnityEngine.Debug.Log("HR: " + hr + ", RPM: " + rpm);
+                //UnityEngine.Debug.Log("HR: " + hr + ", RPM: " + rpm);
                 SetRes(bikeRes);
             }
 
@@ -68,6 +70,10 @@ public class ConnectErgometer : MonoBehaviour
 
 
             i++;
+        }
+        else
+        {
+            connected = false;
         }
     }
 
@@ -277,6 +283,7 @@ public class ConnectErgometer : MonoBehaviour
         if (GetCommState(comPort, ref deviceControlBlock) == false)
         {
             UnityEngine.Debug.Log("deviceControlBlock");
+            opencomportDone = false;
             return;
         }
 

@@ -14,8 +14,10 @@ public class ItemGeneration : MonoBehaviour
     public GameObject enemySmall;
     public GameObject enemyBig;
 
-    public ErgometerScript heartrateScript;
-    public Bike_Resistance playerInfoScript;
+    //public ErgometerScript heartrateScript;
+    private ConnectErgometer heartrateScript;
+
+    private int playerAge;
 
     private int local_heartrate;
     private int hr_wanted_lower;
@@ -23,10 +25,38 @@ public class ItemGeneration : MonoBehaviour
     public string[] objectTags = {"big_enemy", "small_enemy", "normal_letter", "fancy_letter"};
     private uint state = 1; //initial seed for pseudo-random number generation
 
+    private void Awake()
+    {
+        playerAge = PlayerPrefs.GetInt("playerAge");
+        
+        // Find a GameObject with the specified tag
+        GameObject ergometerManager = GameObject.FindWithTag("ergometer");
+
+        // Check if the GameObject was found
+        if (ergometerManager != null)
+        {
+            // Do something with the found GameObject
+            Debug.Log("Found GameObject with tag: " + ergometerManager.name);
+            heartrateScript = ergometerManager.GetComponent<ConnectErgometer>();
+            if (heartrateScript != null)
+            {
+                Debug.Log("heartRateScript found");
+            }
+            else
+            {
+                Debug.Log("SCRIPT NOT FOUND");
+            }
+        }
+        else
+        {
+            // Handle the case when the GameObject with the specified tag is not found
+            Debug.LogError("No GameObject found with tag: YourTagName");
+        }
+    }
+
     private void Start()
     {
-        int age = playerInfoScript.playerAge;
-        int maxHR = (int)(208 - 0.7 * age);
+        int maxHR = (int)(208 - 0.7 * playerAge);
 
         hr_wanted_lower = (int)(0.7 * maxHR);
         hr_wanted_higher = (int)(0.8 * maxHR);

@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5527f7ed2d0320141abd927a22c6a6c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ergometer: {fileID: 3227398510770230654}
+  ergometer: {fileID: 0}
   bird: {fileID: 6813172373686597225}
   moveSpeed: 5
   aimRPM: 60
@@ -115,6 +115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   points: 0
+  pointsText: {fileID: 0}
 --- !u!50 &8464319195955767092
 Rigidbody2D:
   serializedVersion: 4
@@ -153,7 +154,6 @@ GameObject:
   - component: {fileID: 6813172373686597225}
   - component: {fileID: 995742058141356382}
   - component: {fileID: 8887357667801822923}
-  - component: {fileID: 3227398510770230654}
   - component: {fileID: 6767987366071341182}
   m_Layer: 0
   m_Name: Emma
@@ -250,21 +250,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &3227398510770230654
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8619232021579039551}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a186ef56008b8074ba6609c10648be02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bikeRes: 60
-  hr: 200
-  rpm: 0
 --- !u!61 &6767987366071341182
 BoxCollider2D:
   m_ObjectHideFlags: 0

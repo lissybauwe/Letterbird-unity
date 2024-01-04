@@ -8,14 +8,53 @@ using TMPro;
 public class Startup_Countdown : MonoBehaviour
 {
 
-    public ErgometerScript rpm_script;
+    
     public int local_rpm;
     public int timer = 0;
     public TextMeshProUGUI countdown;
+    private ConnectErgometer rpm_script;
+    public GameObject tooSlow;
+    public GameObject tooFast;
+    public GameObject rightSpeed;
 
-    private void Start()
+    private void Awake()
     {
         countdown.text = "5";
+
+        // Find a GameObject with the specified tag
+        GameObject ergometerManager = GameObject.FindWithTag("ergometer");
+
+        // Check if the GameObject was found
+        if (ergometerManager != null)
+        {
+            // Do something with the found GameObject
+            Debug.Log("Found GameObject with tag: " + ergometerManager.name);
+            rpm_script = ergometerManager.GetComponent<ConnectErgometer>();
+            if (rpm_script != null)
+            {
+                Debug.Log("rpm_script found");
+            }
+            else
+            {
+                Debug.Log("SCRIPT NOT FOUND");
+            }
+        }
+        else
+        {
+            // Handle the case when the GameObject with the specified tag is not found
+            Debug.LogError("No GameObject found with tag: YourTagName");
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        // Check if the Enter key is pressed
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            // Load the desired scene (replace "YourSceneName" with the actual scene name or index)
+            SceneManager.LoadScene("Letterbird_Run");
+        }
     }
 
     // Update is called once per frame
@@ -23,18 +62,34 @@ public class Startup_Countdown : MonoBehaviour
     {
         local_rpm = rpm_script.rpm;
 
-        if (local_rpm >= 60)
+        if (local_rpm >= 60 && local_rpm <= 80)
         {
             timer++;
+            rightSpeed.SetActive(true);
+            tooFast.SetActive(false);
+            tooSlow.SetActive(false);
         }
 
-        if(local_rpm < 60)
+        if (local_rpm < 60)
         {
             timer = 0;
             countdown.text = "5";
+            rightSpeed.SetActive(false);
+            tooFast.SetActive(false);
+            tooSlow.SetActive(true);
+
         }
 
-        if(timer >= 300)
+        if(local_rpm > 80)
+        {
+            timer = 0;
+            countdown.text = "5";
+            rightSpeed.SetActive(false);
+            tooFast.SetActive(true);
+            tooSlow.SetActive(false);
+        }
+
+        if (timer >= 300)
         {
             SceneManager.LoadScene("Letterbird_Run");
         }

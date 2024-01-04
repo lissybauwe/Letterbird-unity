@@ -6,11 +6,12 @@ using UnityEngine;
 
 public class Bike_Resistance : MonoBehaviour
 {
-    public ErgometerScript heartRateScript;
-    public int playerAge;
-    public int playerWeight;
-    public int playerHeight;
-    public bool playerPal;
+    //public ErgometerScript heartRateScript;
+    private ConnectErgometer heartRateScript;
+    private int playerAge;
+    private int playerWeight;
+    private int playerHeight;
+    private bool playerPal;
 
     private int HR1;
     private int HR2;
@@ -37,6 +38,39 @@ public class Bike_Resistance : MonoBehaviour
     private int L1; // Calculated Bike Resistance (Load) for Load Level 1; needed for calculating target load (CTL)
     private int L2; // Calculated Bike Resistance (Load) for Load Level 2; needed for calculating target load (CTL)
 
+
+    private void Awake()
+    {
+        playerAge = PlayerPrefs.GetInt("playerAge");
+        playerWeight = PlayerPrefs.GetInt("playerWeight");
+        playerHeight = PlayerPrefs.GetInt("playerHeight");
+        int intPal = PlayerPrefs.GetInt("playerPAL");
+        playerPal = intPal == 1;
+
+        // Find a GameObject with the specified tag
+        GameObject ergometerManager = GameObject.FindWithTag("ergometer");
+
+        // Check if the GameObject was found
+        if (ergometerManager != null)
+        {
+            // Do something with the found GameObject
+            Debug.Log("Found GameObject with tag: " + ergometerManager.name);
+            heartRateScript = ergometerManager.GetComponent<ConnectErgometer>();
+            if (heartRateScript != null)
+            {
+                Debug.Log("heartRateScript found");
+            }
+            else
+            {
+                Debug.Log("SCRIPT NOT FOUND");
+            }
+        }
+        else
+        {
+            // Handle the case when the GameObject with the specified tag is not found
+            Debug.LogError("No GameObject found with tag: YourTagName");
+        }
+    }
 
     // Start is called before the first frame update
     void Start()

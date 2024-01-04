@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class Player_Movement : MonoBehaviour
 {
-    public ErgometerScript ergometer; //Script where the actual communication with the Ergometer happens
+    //public ErgometerScript ergometer; //Script where the actual communication with the Ergometer happens
+    private ConnectErgometer ergometer;
     private float local_rpm = 0f;
     public Transform bird;
     public float moveSpeed = 5f;
@@ -20,6 +21,33 @@ public class Player_Movement : MonoBehaviour
     public float maxRPM = 80f;
     public float minY = -3f;
     public float maxY = 4f;
+
+    private void Awake()
+    {
+        // Find a GameObject with the specified tag
+        GameObject ergometerManager = GameObject.FindWithTag("ergometer");
+
+        // Check if the GameObject was found
+        if (ergometerManager != null)
+        {
+            // Do something with the found GameObject
+            Debug.Log("Found GameObject with tag: " + ergometerManager.name);
+            ergometer = ergometerManager.GetComponent<ConnectErgometer>();
+            if (ergometer != null)
+            {
+                Debug.Log("rpm_script found");
+            }
+            else
+            {
+                Debug.Log("SCRIPT NOT FOUND");
+            }
+        }
+        else
+        {
+            // Handle the case when the GameObject with the specified tag is not found
+            Debug.LogError("No GameObject found with tag: YourTagName");
+        }
+    }
 
     // Update is called once per frame
     void Update()
