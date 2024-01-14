@@ -44,6 +44,8 @@ public class Startup_Countdown : MonoBehaviour
             // Handle the case when the GameObject with the specified tag is not found
             Debug.LogError("No GameObject found with tag: YourTagName");
         }
+
+        rpm_script.bikeRes = PlayerPrefs.GetInt("playerWeight")/2;
     }
 
     // Update is called once per frame
@@ -52,8 +54,16 @@ public class Startup_Countdown : MonoBehaviour
         // Check if the Enter key is pressed
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
         {
-            // Load the desired scene (replace "YourSceneName" with the actual scene name or index)
-            SceneManager.LoadScene("Letterbird_Run");
+            if(PlayerPrefs.GetInt("Demo") == 0)
+            {
+                //here if for stages 0,1 and 2 (road, glimmerwood, blackmire)
+                SceneManager.LoadScene("GameRun");
+
+            }
+            else
+            {
+                SceneManager.LoadScene("DemoRun");
+            }
         }
     }
 
@@ -91,7 +101,14 @@ public class Startup_Countdown : MonoBehaviour
 
         if (timer >= 300)
         {
-            SceneManager.LoadScene("Letterbird_Run");
+            if (PlayerPrefs.GetInt("Demo") == 0)
+            {
+                SceneManager.LoadScene("GameRun");
+            }
+            else
+            {
+                SceneManager.LoadScene("DemoRun");
+            }
         }
 
         if(timer >= 250)

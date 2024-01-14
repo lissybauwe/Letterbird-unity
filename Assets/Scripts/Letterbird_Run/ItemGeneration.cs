@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ItemGeneration : MonoBehaviour
 {
@@ -14,7 +15,9 @@ public class ItemGeneration : MonoBehaviour
     public GameObject enemySmall;
     public GameObject enemyBig;
 
-    //public ErgometerScript heartrateScript;
+    public GameObject hrHigh;
+    public GameObject hrLow;
+
     private ConnectErgometer heartrateScript;
 
     private int playerAge;
@@ -22,7 +25,7 @@ public class ItemGeneration : MonoBehaviour
     private int local_heartrate;
     private int hr_wanted_lower;
     private int hr_wanted_higher;
-    public string[] objectTags = {"big_enemy", "small_enemy", "normal_letter", "fancy_letter"};
+    public string[] objectTags = {"big_enemy", "small_enemy", "normal_letter", "fancy_letter" };
     private uint state = 1; //initial seed for pseudo-random number generation
 
     private void Awake()
@@ -64,7 +67,41 @@ public class ItemGeneration : MonoBehaviour
         StartCoroutine(LetterSpawning());
         StartCoroutine(EnemySpawning());
         StartCoroutine(ObjectDespawning());
+        StartCoroutine(IndicateHR());
 
+    }
+
+    IEnumerator IndicateHR()
+    {
+        yield return new WaitForSeconds(1f);
+
+        //if (local_heartrate != heartrateScript.hr)
+        //{
+        //    local_heartrate = heartrateScript.hr;
+        //}
+
+        local_heartrate = 80;
+
+        // if hr in wanted range:
+        if (local_heartrate <= hr_wanted_higher && local_heartrate >= hr_wanted_lower)
+        {
+            hrHigh.SetActive(false);
+            hrLow.SetActive(false);
+        }
+
+        // if hr lower than wanted range:
+        if (local_heartrate < hr_wanted_lower)
+        {
+            hrHigh.SetActive(false);
+            hrLow.SetActive(true);
+        }
+
+        // if hr higher than wanted range:
+        if (local_heartrate > hr_wanted_higher)
+        {
+            hrHigh.SetActive(true);
+            hrLow.SetActive(false);
+        }
     }
 
     IEnumerator ObjectDespawning()

@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting.Antlr3.Runtime;
+using UnityEngine.UIElements;
+using static UnityEditor.Progress;
 
 public class MainMenu : MonoBehaviour
 {
@@ -14,10 +17,29 @@ public class MainMenu : MonoBehaviour
     public ConnectErgometer connectErgometer;
     public GameObject connectedImage;
     public GameObject notConnected;
+    public GameObject ergometer;
 
     private float timer = 0f;
     private float delay = 4f; // set the delay in seconds
     private bool startTimer;
+
+    private void Awake()
+    {
+        // Replace "YourTag" with the actual tag you want to search for
+        GameObject objWithTag = GameObject.FindWithTag("ergometer");
+
+        if (objWithTag == null)
+        {
+            if (ergometer != null)
+            {
+                Vector2 position = new Vector2(0, 0);
+                Instantiate(ergometer, position, Quaternion.identity);
+            }
+        }
+
+        GameObject GO_ergometer = GameObject.FindWithTag("ergometer");
+        connectErgometer = GO_ergometer.GetComponent<ConnectErgometer>();
+    }
 
     void Update()
     {
@@ -56,8 +78,20 @@ public class MainMenu : MonoBehaviour
     public void PlayGame()
     {
 
-        SceneManager.LoadScene("Letterbird_Run_Startup");
+        PlayerPrefs.SetInt("Demo",0);
+        SceneManager.LoadScene("WorldMap");
 
+    }
+
+    public void PlayDemo()
+    {
+        PlayerPrefs.SetInt("Demo",1);
+        SceneManager.LoadScene("Startup");
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 
     public void savePlayerAge()

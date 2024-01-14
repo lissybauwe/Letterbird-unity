@@ -6,9 +6,27 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Letterbird_Run_Startup.unity
+    path: Assets/Scenes/StartMenu.unity
+    guid: e19f08be43ec16841807d8362e9353ec
+  - enabled: 1
+    path: Assets/Scenes/Startup.unity
     guid: 861d4a9038a9cc944932678712a70951
   - enabled: 1
-    path: Assets/Scenes/Letterbird_Run.unity
+    path: Assets/Scenes/GameRun.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/EndOfRun.unity
+    guid: d48b237dc80c0784f8b1765d19d01442
+  - enabled: 1
+    path: Assets/Scenes/DemoRun.unity
+    guid: 86fbb9d47b0e8cf46b30bb733380c3d1
+  - enabled: 1
+    path: Assets/Scenes/EndOfDemo.unity
+    guid: fea1fd030e73fac4c8e8b642ae046b4b
+  - enabled: 1
+    path: Assets/Scenes/WorldMap.unity
+    guid: 0aff0f48dde433a43a9ff9e967751016
+  - enabled: 1
+    path: Assets/Scenes/Startup_Blackmire.unity
+    guid: 5581e42e36ee3784c8351691e1f8e295
   m_configObjects: {}

@@ -340,7 +340,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Super! Halte diese Geschindigkeit!
+  m_text: Great! Keep this speed!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cbd1f3f6da986cb49b2562ca51e6a759, type: 2}
   m_sharedMaterial: {fileID: 4599876261405445779, guid: cbd1f3f6da986cb49b2562ca51e6a759, type: 2}
@@ -732,7 +732,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Trete langsamer!
+  m_text: Pedal slower!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cbd1f3f6da986cb49b2562ca51e6a759, type: 2}
   m_sharedMaterial: {fileID: 4599876261405445779, guid: cbd1f3f6da986cb49b2562ca51e6a759, type: 2}
@@ -1016,7 +1016,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Steige jetzt auf das Ergometer und tritt in die Pedale!
+  m_text: Get on the Ergometer and start pedalling!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cbd1f3f6da986cb49b2562ca51e6a759, type: 2}
   m_sharedMaterial: {fileID: 4599876261405445779, guid: cbd1f3f6da986cb49b2562ca51e6a759, type: 2}
@@ -1311,7 +1311,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Trete schneller!
+  m_text: Pedal faster!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cbd1f3f6da986cb49b2562ca51e6a759, type: 2}
   m_sharedMaterial: {fileID: 4599876261405445779, guid: cbd1f3f6da986cb49b2562ca51e6a759, type: 2}
