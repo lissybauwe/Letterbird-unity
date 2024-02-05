@@ -21,6 +21,10 @@ public class DemoResponsiveUI : MonoBehaviour
     private int maxHR;
     private float collectibleTime;
     private bool spawnedCollectible = true;
+    public CSVManager writeScript;
+    private int weight;
+    private int height;
+    private int age;
 
     public ItemGeneration ItemGenerationScript;
 
@@ -31,6 +35,11 @@ public class DemoResponsiveUI : MonoBehaviour
         Debug.Log("Total-Time: " + totalTime);
 
         maxHR = (int)(208 - 0.7 * PlayerPrefs.GetInt("playerAge"));
+        weight = PlayerPrefs.GetInt("playerWeight");
+        height = PlayerPrefs.GetInt("playerHeight");
+        age = PlayerPrefs.GetInt("playerAge");
+
+        writeScript.writeData("Time", "Heartrate", "Weight", "Age", "Height");
 
         //Generate Time Frame in which the Collectible is spawned
         float randomPercentage = Random.Range(60f, 80f);
@@ -64,6 +73,19 @@ public class DemoResponsiveUI : MonoBehaviour
         {
             // Handle the case when the GameObject with the specified tag is not found
             Debug.LogError("No GameObject found with tag: YourTagName");
+        }
+
+        StartCoroutine(WriteCSV());
+    }
+
+    IEnumerator WriteCSV()
+    {
+        while (true)
+        {
+
+            yield return new WaitForSeconds(0.5f);
+
+            writeScript.writeData(currentTime.ToString(),hr.ToString(), weight.ToString(), age.ToString(), height.ToString());
         }
     }
 

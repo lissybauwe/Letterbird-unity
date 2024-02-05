@@ -17,11 +17,23 @@ public class ResponsiveUI : MonoBehaviour
     private Vector2 pidgeonCoordinates;
     public TextMeshProUGUI pointsText;
 
+    public CSVManager writeScript;
+    private string weight;
+    private string height;
+    private string age;
+    private int heartrate;
+
     private void Awake()
     {
         timeBarSize = timeBarSlider.anchoredPosition;
 
         pidgeonCoordinates = pidgeon.transform.localPosition;
+
+        weight = PlayerPrefs.GetInt("playerWeight").ToString();
+        height = PlayerPrefs.GetInt("playerHeight").ToString();
+        age = PlayerPrefs.GetInt("playerAge").ToString();
+
+        writeScript.writeData("Time","Heartrate", "Weight", "Age", "Height");
 
         // Find a GameObject with the specified tag
         GameObject ergometerManager = GameObject.FindWithTag("ergometer");
@@ -46,13 +58,25 @@ public class ResponsiveUI : MonoBehaviour
             // Handle the case when the GameObject with the specified tag is not found
             Debug.LogError("No GameObject found with tag: YourTagName");
         }
+
+        StartCoroutine(WriteCSV());
+    }
+
+    IEnumerator WriteCSV()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(0.5f);
+
+            writeScript.writeData(currentTime.ToString(), heartrate.ToString(), weight.ToString(), age.ToString(), height.ToString());
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         //changing Heartrate UI Element
-        int heartrate = heartRateScript.hr;
+        heartrate = heartRateScript.hr;
         heartrateText.text = heartrate.ToString();
 
         //changing the position of the timer bar and pidgeon

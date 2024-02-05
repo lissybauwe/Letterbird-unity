@@ -1954,6 +1954,9 @@ MonoBehaviour:
   - small_enemy
   - normal_letter
   - fancy_letter
+  Collectible1: {fileID: 0}
+  Collectible2: {fileID: 0}
+  Collectible3: {fileID: 0}
 --- !u!114 &1731816494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1983,6 +1986,20 @@ MonoBehaviour:
   timeBarSlider: {fileID: 1811957502}
   pidgeon: {fileID: 971879995}
   pointsText: {fileID: 111124988}
+  writeScript: {fileID: 1731816501}
+--- !u!114 &1731816501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1731816487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2e90d15e98595c4486470ac605083ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  filePath: Assets/CSVFiles/playerData.csv
 --- !u!1 &1811957501
 GameObject:
   m_ObjectHideFlags: 0
@@ -2514,6 +2531,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1151174020427203033, guid: 4160c422f6274194fb45f22cfd288c31, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1731816500}
+    - targetCorrespondingSourceObject: {fileID: 1151174020427203033, guid: 4160c422f6274194fb45f22cfd288c31, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1731816501}
   m_SourcePrefab: {fileID: 100100000, guid: 4160c422f6274194fb45f22cfd288c31, type: 3}
 --- !u!1001 &5672152924278874782
 PrefabInstance:

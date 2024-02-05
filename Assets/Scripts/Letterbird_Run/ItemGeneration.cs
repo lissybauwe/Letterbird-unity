@@ -100,40 +100,43 @@ public class ItemGeneration : MonoBehaviour
 
     IEnumerator IndicateHR()
     {
-        yield return new WaitForSeconds(1f);
-
-        if(PlayerPrefs.GetInt("useHR")== 1)
+        while (true)
         {
-            if (local_heartrate != heartrateScript.hr)
+            yield return new WaitForSeconds(1f);
+
+            if (PlayerPrefs.GetInt("useHR") == 1)
             {
-                local_heartrate = heartrateScript.hr;
+                if (local_heartrate != heartrateScript.hr)
+                {
+                    local_heartrate = heartrateScript.hr;
+                }
             }
-        }
-        else
-        {
-            local_heartrate = demoUIScript.hr;
-        }
+            else
+            {
+                local_heartrate = demoUIScript.hr;
+            }
 
 
-        // if hr in wanted range:
-        if (local_heartrate <= hr_wanted_higher && local_heartrate >= hr_wanted_lower)
-        {
-            hrHigh.SetActive(false);
-            hrLow.SetActive(false);
-        }
+            // if hr in wanted range:
+            if (local_heartrate <= hr_wanted_higher && local_heartrate >= hr_wanted_lower)
+            {
+                hrHigh.SetActive(false);
+                hrLow.SetActive(false);
+            }
 
-        // if hr lower than wanted range:
-        if (local_heartrate < hr_wanted_lower)
-        {
-            hrHigh.SetActive(false);
-            hrLow.SetActive(true);
-        }
+            // if hr lower than wanted range:
+            if (local_heartrate < hr_wanted_lower)
+            {
+                hrHigh.SetActive(false);
+                hrLow.SetActive(true);
+            }
 
-        // if hr higher than wanted range:
-        if (local_heartrate > hr_wanted_higher)
-        {
-            hrHigh.SetActive(true);
-            hrLow.SetActive(false);
+            // if hr higher than wanted range:
+            if (local_heartrate > hr_wanted_higher)
+            {
+                hrHigh.SetActive(true);
+                hrLow.SetActive(false);
+            }
         }
     }
 
