@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Bike_Resistance : MonoBehaviour
 {
@@ -37,6 +38,10 @@ public class Bike_Resistance : MonoBehaviour
     private int alc_exception_timer = 0; // timer to adjust bikeRes in ALC (expection LL2)
     private int L1; // Calculated Bike Resistance (Load) for Load Level 1; needed for calculating target load (CTL)
     private int L2; // Calculated Bike Resistance (Load) for Load Level 2; needed for calculating target load (CTL)
+    public DemoResponsiveUI demoResponsiveUI;
+    int hr_wanted_higher;
+    int hr_wanted_lower;
+
 
 
     private void Awake()
@@ -45,6 +50,13 @@ public class Bike_Resistance : MonoBehaviour
         playerWeight = PlayerPrefs.GetInt("playerWeight");
         playerHeight = PlayerPrefs.GetInt("playerHeight");
         int intPal = PlayerPrefs.GetInt("playerPAL");
+
+        int maxHR = (int)(208 - (0.7 * playerAge));
+
+        hr_wanted_lower = (int)(0.7 * maxHR);
+        hr_wanted_higher = (int)(0.8 * maxHR);
+
+
         playerPal = intPal == 1;
 
         // Find a GameObject with the specified tag
@@ -102,145 +114,170 @@ public class Bike_Resistance : MonoBehaviour
     void FixedUpdate()
     {
         //Load Levels will be calculated by seconds
-        if(i >= 10) //translates round about to a second (needs to be 50)
+        if (PlayerPrefs.GetInt("useHR") != 1)
         {
-            seconds++;
-            //Debug.Log("!!! " + seconds);
-            i = 0;
+            int local_heartrate = demoResponsiveUI.hr;
+            // if hr in wanted range: middle area // y = 1 - y = -2
+            if (local_heartrate <= hr_wanted_higher && local_heartrate >= hr_wanted_lower)
+            {
+                newRes = 100;
+            }
+
+            // if hr lower than wanted range: high area // y = 3,5 - y = 1,5
+            if (local_heartrate < hr_wanted_lower)
+            {
+                newRes = 120;
+            }
+
+            // if hr higher than wanted range: low area // y = -2,5 - y = -3
+            if (local_heartrate > hr_wanted_higher)
+            {
+                newRes = 80;
+            }
         }
         else
         {
-            i++;
-        }
-
-        // start calc average HeartRates
-        //------------------------------
-
-        // avg HeartRate in LoadLevel 1
-        if(seconds > 89 && seconds < 121 && seconds != lastCalc)
-        {
-            lastCalc = seconds;
-            HR1 = HR1 + heartRateScript.hr;
-            countHR1++;
-            avgHR1 = HR1 / countHR1;
-        }
-
-        // avg HeartRate in LoadLevel 2
-        if (seconds > 209 && seconds < 241 && seconds != lastCalc)
-        {
-            lastCalc = seconds;
-            HR2 = HR2 + heartRateScript.hr;
-            countHR2++;
-            avgHR2 = HR2 / countHR2;
-        }
-
-        // 0:00 - 1:59 - Load Level 1 (L1)
-        //-------------------------------
-
-        if (seconds < 120 && lastResCalc != seconds)
-        {
-            //Debug.Log("Load LVL 1: " + seconds);
-            lastResCalc = seconds;
-            //determine BMI to calculate appropriate Load Level; exception made with PAL incase BMI inaccurate
-
-            if (!decreasedIntensity) // normal Load Level 1
+            if (i >= 10) //translates round about to a second (needs to be 50)
             {
-                newRes = playerWeight;
+                seconds++;
+                //Debug.Log("!!! " + seconds);
+                i = 0;
             }
-            else                      // decreased Load Level 1
+            else
             {
-                newRes = playerWeight / 2;
+                i++;
             }
 
-            L1 = newRes;
-        }
+            // start calc average HeartRates
+            //------------------------------
 
-        // 2:00 - 3:59 - Load Level 2 (L2) or Automatic Load Control (ALC)
-        //-----------------------------------------------------------------
-
-        if (seconds >=120 && seconds < 240 && lastResCalc != seconds)
-        {
-            //Debug.Log("Load LVL 2: " + seconds);
-            lastResCalc = seconds;
-
-            if(heartRateScript.hr > 0.8 * pulseMax) //exception --> swap to ALC
+            // avg HeartRate in LoadLevel 1
+            if (seconds > 89 && seconds < 121 && seconds != lastCalc)
             {
-                if(alc_exception_timer == 0 || alc_exception_timer <= seconds - 40)
+                lastCalc = seconds;
+                HR1 = HR1 + heartRateScript.hr;
+                countHR1++;
+                avgHR1 = HR1 / countHR1;
+            }
+
+            // avg HeartRate in LoadLevel 2
+            if (seconds > 209 && seconds < 241 && seconds != lastCalc)
+            {
+                lastCalc = seconds;
+                HR2 = HR2 + heartRateScript.hr;
+                countHR2++;
+                avgHR2 = HR2 / countHR2;
+            }
+
+            // 0:00 - 1:59 - Load Level 1 (L1)
+            //-------------------------------
+
+            if (seconds < 120 && lastResCalc != seconds)
+            {
+                //Debug.Log("Load LVL 1: " + seconds);
+                lastResCalc = seconds;
+                //determine BMI to calculate appropriate Load Level; exception made with PAL incase BMI inaccurate
+
+                if (!decreasedIntensity) // normal Load Level 1
                 {
-                    if(newRes > minRes)
+                    newRes = playerWeight;
+                }
+                else                      // decreased Load Level 1
+                {
+                    newRes = playerWeight / 2;
+                }
+
+                L1 = newRes;
+            }
+
+            // 2:00 - 3:59 - Load Level 2 (L2) or Automatic Load Control (ALC)
+            //-----------------------------------------------------------------
+
+            if (seconds >= 120 && seconds < 240 && lastResCalc != seconds)
+            {
+                //Debug.Log("Load LVL 2: " + seconds);
+                lastResCalc = seconds;
+
+                if (heartRateScript.hr > 0.8 * pulseMax) //exception --> swap to ALC
+                {
+                    if (alc_exception_timer == 0 || alc_exception_timer <= seconds - 40)
                     {
-                        newRes = bikeRes - 10;
-                        alc_exception_timer = seconds;
+                        if (newRes > minRes)
+                        {
+                            newRes = bikeRes - 10;
+                            alc_exception_timer = seconds;
+                        }
                     }
                 }
-            }else if (!decreasedIntensity)
-            {
-                newRes = playerWeight * 2;
-            }
-            else
-            {
-                newRes = playerWeight;
-            }
-
-            L2 = newRes;
-        }
-
-        // 4:00 - 4:59 - Calculated Target Load (CTL)
-        //-------------------------------------------
-
-        if (seconds >= 240 && seconds < 300 && lastResCalc != seconds)
-        {
-            //Debug.Log("CTL: " + seconds);
-            lastResCalc = seconds;
-
-            int avg_diff;
-
-            if (avgHR2 == avgHR1) //exception / nicht durch 0 teilen
-            {
-                avgHR1 = avgHR2 - 1;
-            }
-
-            if (avgHR1 > avgHR2)
-            {
-                avg_diff = avgHR1 - avgHR2;
-            }
-            else
-            {
-                avg_diff = avgHR2 - avgHR1;
-            }
-
-            newRes = Mathf.RoundToInt((float)(0.9 * ((pulseIntended - avgHR2) / avg_diff) * (L2 - L1) + L2));
-
-            if (newRes < 0 || newRes < minRes)
-            {
-                newRes = minRes;
-            }
-
-        }
-
-        // 5:00 - 10:00 - Automatic Load Control (ALC)
-        //--------------------------------------------
-
-        if (seconds >= 300 && seconds < 601 && lastResCalc != seconds)
-        {
-            lastResCalc = seconds;
-            //Debug.Log("ALC: " + seconds);
-
-            if (heartRateScript.hr > 0.8 * pulseMax)
-            {
-                if((alc_timer == 0 || alc_timer <= seconds - 60) && newRes > minRes)
+                else if (!decreasedIntensity)
                 {
-                    newRes = bikeRes - 10;
-                    alc_timer = seconds;
+                    newRes = playerWeight * 2;
                 }
+                else
+                {
+                    newRes = playerWeight;
+                }
+
+                L2 = newRes;
             }
 
-            if(heartRateScript.hr < 0.7 * pulseMax)
+            // 4:00 - 4:59 - Calculated Target Load (CTL)
+            //-------------------------------------------
+
+            if (seconds >= 240 && seconds < 300 && lastResCalc != seconds)
             {
-                if((alc_timer == 0 || alc_timer <= seconds -60) && newRes < maxRes)
+                //Debug.Log("CTL: " + seconds);
+                lastResCalc = seconds;
+
+                int avg_diff;
+
+                if (avgHR2 == avgHR1) //exception / nicht durch 0 teilen
                 {
-                    newRes = bikeRes + 10;
-                    alc_timer = seconds;
+                    avgHR1 = avgHR2 - 1;
+                }
+
+                if (avgHR1 > avgHR2)
+                {
+                    avg_diff = avgHR1 - avgHR2;
+                }
+                else
+                {
+                    avg_diff = avgHR2 - avgHR1;
+                }
+
+                newRes = Mathf.RoundToInt((float)(0.9 * ((pulseIntended - avgHR2) / avg_diff) * (L2 - L1) + L2));
+
+                if (newRes < 0 || newRes < minRes)
+                {
+                    newRes = minRes;
+                }
+
+            }
+
+            // 5:00 - 10:00 - Automatic Load Control (ALC)
+            //--------------------------------------------
+
+            if (seconds >= 300 && seconds < 601 && lastResCalc != seconds)
+            {
+                lastResCalc = seconds;
+                //Debug.Log("ALC: " + seconds);
+
+                if (heartRateScript.hr > 0.8 * pulseMax)
+                {
+                    if ((alc_timer == 0 || alc_timer <= seconds - 60) && newRes > minRes)
+                    {
+                        newRes = bikeRes - 10;
+                        alc_timer = seconds;
+                    }
+                }
+
+                if (heartRateScript.hr < 0.7 * pulseMax)
+                {
+                    if ((alc_timer == 0 || alc_timer <= seconds - 60) && newRes < maxRes)
+                    {
+                        newRes = bikeRes + 10;
+                        alc_timer = seconds;
+                    }
                 }
             }
         }

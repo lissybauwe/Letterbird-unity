@@ -29,4 +29,25 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Startup_Blackmire.unity
     guid: 5581e42e36ee3784c8351691e1f8e295
+  - enabled: 1
+    path: Assets/Scenes/BlackmireRun.unity
+    guid: f44ac37db830064469eaaa3c9d43f26d
+  - enabled: 1
+    path: Assets/Scenes/EndOfBlackmire.unity
+    guid: 39b607b99551ad74581d243a6db8c6b4
+  - enabled: 1
+    path: Assets/Scenes/Startup_Glimmerwood.unity
+    guid: 968b5405582122843a623d1b58cf1a52
+  - enabled: 1
+    path: Assets/Scenes/GlimmerwoodRun.unity
+    guid: 0f15ba3b5c0da5c45ad79519bbdc7ff5
+  - enabled: 1
+    path: Assets/Scenes/EndOfGlimmerwood.unity
+    guid: 30f017609ef812640aba649d3750beb6
+  - enabled: 1
+    path: Assets/Scenes/Shop.unity
+    guid: 2023099638ad4264b92221e1c4f33c6d
+  - enabled: 1
+    path: Assets/Scenes/Home.unity
+    guid: 27b91cc38f172f042bd31f626fde34a9
   m_configObjects: {}

@@ -22,6 +22,7 @@ public class PointBasedUI : MonoBehaviour
     private void Awake()
     {
         points = PlayerPrefs.GetInt("Points");
+        int coins = PlayerPrefs.GetInt("coins");
 
         if (PlayerPrefs.GetInt("Demo") != 1)
         {
@@ -30,6 +31,7 @@ public class PointBasedUI : MonoBehaviour
                 ThreeStar.SetActive(true);
                 TwoStar.SetActive(false);
                 OneStar.SetActive(false);
+                PlayerPrefs.SetInt("coins", coins + 3);
             }
             else
             {
@@ -38,12 +40,14 @@ public class PointBasedUI : MonoBehaviour
                     ThreeStar.SetActive(false);
                     TwoStar.SetActive(true);
                     OneStar.SetActive(false);
+                    PlayerPrefs.SetInt("coins", coins + 2);
                 }
                 else
                 {
                     ThreeStar.SetActive(false);
                     TwoStar.SetActive(false);
                     OneStar.SetActive(true);
+                    PlayerPrefs.SetInt("coins", coins + 1);
                 }
             }
         }

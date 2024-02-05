@@ -9,6 +9,9 @@ TagManager:
   - fancy_letter
   - normal_letter
   - ergometer
+  - collectible1
+  - collectible2
+  - collectible3
   layers:
   - Default
   - TransparentFX

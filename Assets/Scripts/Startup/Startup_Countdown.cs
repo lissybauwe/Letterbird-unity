@@ -57,7 +57,22 @@ public class Startup_Countdown : MonoBehaviour
             if(PlayerPrefs.GetInt("Demo") == 0)
             {
                 //here if for stages 0,1 and 2 (road, glimmerwood, blackmire)
-                SceneManager.LoadScene("GameRun");
+
+                int stage = PlayerPrefs.GetInt("Stage");
+
+                if(stage == 0)
+                {
+                    SceneManager.LoadScene("GameRun");
+                }
+
+                if(stage == 1)
+                {
+                    SceneManager.LoadScene("GlimmerwoodRun");
+                }
+                if(stage == 2)
+                {
+                    SceneManager.LoadScene("BlackmireRun");
+                }
 
             }
             else

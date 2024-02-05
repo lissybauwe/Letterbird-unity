@@ -27,6 +27,49 @@ public class HighscoreManager : MonoBehaviour
 
     private HighscoreData highscoreData;
 
+    public GameObject Collected1;
+    public GameObject Collected2;
+    public GameObject Collected3;
+    public GameObject Collectible1;
+    public GameObject Collectible2;
+    public GameObject Collectible3;
+
+    private void Awake()
+    {
+        if (PlayerPrefs.GetInt("CollectedOne") == 1)
+        {
+            Collected1.SetActive(true);
+            Collectible1.SetActive(false);
+        }
+        else
+        {
+            Collected1.SetActive(false);
+            Collectible1.SetActive(true);
+        }
+
+        if (PlayerPrefs.GetInt("CollectedTwo") == 1)
+        {
+            Collected2.SetActive(true);
+            Collectible2.SetActive(false);
+        }
+        else
+        {
+            Collected2.SetActive(false);
+            Collectible2.SetActive(true);
+        }
+
+        if (PlayerPrefs.GetInt("CollectedThree") == 1)
+        {
+            Collected3.SetActive(true);
+            Collectible3.SetActive(false);
+        }
+        else
+        {
+            Collected3.SetActive(false);
+            Collectible3.SetActive(true);
+        }
+    }
+
     void Start()
     {
         Debug.Log("Start");

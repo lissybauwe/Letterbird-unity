@@ -18,7 +18,10 @@ public class ItemGeneration : MonoBehaviour
     public GameObject hrHigh;
     public GameObject hrLow;
 
+    public GameObject Icon_emerald;
+
     private ConnectErgometer heartrateScript;
+    public DemoResponsiveUI demoUIScript;
 
     private int playerAge;
 
@@ -27,11 +30,35 @@ public class ItemGeneration : MonoBehaviour
     private int hr_wanted_higher;
     public string[] objectTags = {"big_enemy", "small_enemy", "normal_letter", "fancy_letter" };
     private uint state = 1; //initial seed for pseudo-random number generation
+    private float letterspawningTime = 6f;
+    private float enemyspawningTime = 8f;
+
+    public GameObject Collectible1;
+    public GameObject Collectible2;
+    public GameObject Collectible3;
+
 
     private void Awake()
     {
         playerAge = PlayerPrefs.GetInt("playerAge");
-        
+
+        if (PlayerPrefs.GetInt("Demo") != 1) {
+            int emerald = PlayerPrefs.GetInt("item_emerald");
+            if (emerald > 0)
+            {
+                PlayerPrefs.SetInt("item_emerald", emerald - 1);
+                letterspawningTime = 5f;
+                enemyspawningTime = 7f;
+                Icon_emerald.SetActive(true);
+            }
+            else
+            {
+                Icon_emerald.SetActive(false);
+                letterspawningTime = 6f;
+                enemyspawningTime = 8f;
+            }
+        }
+
         // Find a GameObject with the specified tag
         GameObject ergometerManager = GameObject.FindWithTag("ergometer");
 
@@ -75,12 +102,18 @@ public class ItemGeneration : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
 
-        //if (local_heartrate != heartrateScript.hr)
-        //{
-        //    local_heartrate = heartrateScript.hr;
-        //}
+        if(PlayerPrefs.GetInt("useHR")== 1)
+        {
+            if (local_heartrate != heartrateScript.hr)
+            {
+                local_heartrate = heartrateScript.hr;
+            }
+        }
+        else
+        {
+            local_heartrate = demoUIScript.hr;
+        }
 
-        local_heartrate = 80;
 
         // if hr in wanted range:
         if (local_heartrate <= hr_wanted_higher && local_heartrate >= hr_wanted_lower)
@@ -131,16 +164,23 @@ public class ItemGeneration : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(6f); // Adjust the interval as needed
+            yield return new WaitForSeconds(letterspawningTime); // Adjust the interval as needed
 
             Vector2 position = transform.position;
 
             position.x += 10;
 
-            if (local_heartrate != heartrateScript.hr)
-            {
-                local_heartrate = heartrateScript.hr;
-            }
+            if(PlayerPrefs.GetInt("useHR") == 1)
+                {
+                    if (local_heartrate != heartrateScript.hr)
+                    {
+                        local_heartrate = heartrateScript.hr;
+                    }
+                }
+            else
+                {
+                    local_heartrate = demoUIScript.hr;
+                }
 
             // if hr in wanted range: middle area // y = 1 - y = -2
             if (local_heartrate <= hr_wanted_higher && local_heartrate >= hr_wanted_lower)
@@ -172,15 +212,22 @@ public class ItemGeneration : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(8f); // Adjust the interval as needed
+            yield return new WaitForSeconds(enemyspawningTime); // Adjust the interval as needed
 
             Vector2 position = transform.position;
 
             position.x += 10;
 
-            if (local_heartrate != heartrateScript.hr)
+            if (PlayerPrefs.GetInt("useHR") == 1)
             {
-                local_heartrate = heartrateScript.hr;
+                if (local_heartrate != heartrateScript.hr)
+                {
+                    local_heartrate = heartrateScript.hr;
+                }
+            }
+            else
+            {
+                local_heartrate = demoUIScript.hr;
             }
 
             // if hr in wanted range: lower or higher area // y = -4/-5 or y = 3/4
@@ -240,5 +287,41 @@ public class ItemGeneration : MonoBehaviour
              
         // Instantiate the object at the specified position
         Instantiate(item, position, Quaternion.identity);
+    }
+
+    public void SpawnCollectible()
+    {
+        Vector2 position = transform.position;
+        position.x += 10;
+        Debug.Log("Spawning!!!!");
+
+        if (PlayerPrefs.GetInt("CollectedOne")!=1)
+        {
+            GameObject item = Collectible1;
+
+            Instantiate(item, position, Quaternion.identity);
+            Debug.Log("One");
+        }
+        else
+        {
+            if (PlayerPrefs.GetInt("CollectedTwo") != 1)
+            {
+                GameObject item = Collectible2;
+
+                Instantiate(item, position, Quaternion.identity);
+                Debug.Log("Two");
+            }
+            else
+            {
+                if (PlayerPrefs.GetInt("CollectedThree") != 1)
+                {
+                    GameObject item = Collectible3;
+
+                    Instantiate(item, position, Quaternion.identity);
+                    Debug.Log("Three");
+                }
+            }
+        }
+        
     }
 }

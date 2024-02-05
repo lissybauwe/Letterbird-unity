@@ -6,14 +6,15 @@ using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine.UIElements;
-using static UnityEditor.Progress;
 
 public class MainMenu : MonoBehaviour
 {
     public TMP_InputField ageInputField;
     public TMP_InputField weightInputField;
     public TMP_InputField heightInputField;
+    public TMP_InputField demoTimeInputField;
     private bool toggle = true;
+    private bool toggleHR = true;
     public ConnectErgometer connectErgometer;
     public GameObject connectedImage;
     public GameObject notConnected;
@@ -142,6 +143,21 @@ public class MainMenu : MonoBehaviour
         }
     }
 
+    public void saveDemoTime()
+    {
+        int enteredNumber;
+        if(int.TryParse(demoTimeInputField.text, out enteredNumber))
+        {
+            PlayerPrefs.SetInt("DemoTime", enteredNumber);
+            PlayerPrefs.Save();
+            Debug.Log("DemoTime saved: " + enteredNumber);
+        }
+        else
+        {
+            Debug.LogError("Invalid number entered!");
+        }
+    }
+
     public void savePAL()
     {
         toggle = !toggle;
@@ -150,10 +166,25 @@ public class MainMenu : MonoBehaviour
         PlayerPrefs.Save();
     }
 
+    public void saveHR()
+    {
+        toggleHR = !toggleHR;
+        PlayerPrefs.SetInt("useHR", toggleHR ? 1 : 0);
+        Debug.Log("useHR saved: " + toggleHR);
+        PlayerPrefs.Save();
+    }
+
     public void connectErgometerVisual()
     {
         startTimer = true;
         connectedImage.SetActive(false);
         notConnected.SetActive(false);
+    }
+
+    public void resetCollectibles()
+    {
+        PlayerPrefs.SetInt("CollectedOne",0);
+        PlayerPrefs.SetInt("CollectedTwo", 0);
+        PlayerPrefs.SetInt("CollectedThree", 0);
     }
 }

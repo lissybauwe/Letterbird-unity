@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,9 +17,27 @@ public class DemoResponsiveUI : MonoBehaviour
     private Vector2 timeBarSize;
     private Vector2 pidgeonCoordinates;
     public TextMeshProUGUI pointsText;
+    public int hr;
+    private int maxHR;
+    private float collectibleTime;
+    private bool spawnedCollectible = true;
+
+    public ItemGeneration ItemGenerationScript;
 
     private void Awake()
     {
+        int demoTime = PlayerPrefs.GetInt("DemoTime");
+        if (demoTime != 0) { totalTime = demoTime * 60f; }
+        Debug.Log("Total-Time: " + totalTime);
+
+        maxHR = (int)(208 - 0.7 * PlayerPrefs.GetInt("playerAge"));
+
+        //Generate Time Frame in which the Collectible is spawned
+        float randomPercentage = Random.Range(60f, 80f);
+        collectibleTime = totalTime * (randomPercentage / 100f);
+        Debug.Log("collectibleTime: " + collectibleTime);
+        spawnedCollectible = false;
+
         timeBarSize = timeBarSlider.anchoredPosition;
 
         pidgeonCoordinates = pidgeon.transform.localPosition;
@@ -52,13 +71,48 @@ public class DemoResponsiveUI : MonoBehaviour
     void Update()
     {
         //changing Heartrate UI Element
-        int heartrate = heartRateScript.hr;
-        heartrateText.text = heartrate.ToString();
+        hr = heartRateScript.hr;
+        if (PlayerPrefs.GetInt("useHR") != 1)
+        {
+
+            heartrateText.text = "X";
+            if (currentTime < (0.25 * totalTime)) { 
+                hr = maxHR;
+            }
+            if (currentTime >= (0.25 * totalTime) && currentTime < (0.35 * totalTime))
+            {
+                hr = (int) (0.75 * maxHR);
+            }
+            if (currentTime >= (0.35 * totalTime) && currentTime < (0.6 * totalTime))
+            {
+                hr = (int) (0.5 * maxHR);
+            }
+            if (currentTime >= (0.6 * totalTime) && currentTime < (0.85 * totalTime))
+            {
+                hr = (int) (0.75 * maxHR);
+            }
+            if (currentTime >= (0.85 * totalTime))
+            {
+                hr = maxHR;
+            }
+        }
+        else
+        {
+            heartrateText.text = hr.ToString();
+        }
+
 
         //changing the position of the timer bar and pidgeon
 
         // Update the current time based on real-time (Time.deltaTime)
         currentTime += Time.deltaTime;
+
+        if(currentTime >= collectibleTime && spawnedCollectible == false)
+        {
+            spawnedCollectible = true;
+            Debug.Log("SpawnCollectible");
+            ItemGenerationScript.SpawnCollectible();
+        }
 
         // Calculate the normalized value (0 to 1) for the slider
         float normalizedValue = currentTime / totalTime;

@@ -171,10 +171,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -691,10 +691,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -1213,10 +1213,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -1683,11 +1683,16 @@ MonoBehaviour:
   enemyBig: {fileID: 7394427558772662693, guid: eb7afe85995849c44b2d808a01cfa607, type: 3}
   hrHigh: {fileID: 1859251926}
   hrLow: {fileID: 683074442}
+  Icon_emerald: {fileID: 0}
+  demoUIScript: {fileID: 1731816495}
   objectTags:
   - big_enemy
   - small_enemy
   - normal_letter
   - fancy_letter
+  Collectible1: {fileID: 7427974091140354690, guid: 8ba1086815485e449b4a078eaf033618, type: 3}
+  Collectible2: {fileID: 6747570315096766267, guid: b4fdadef15738c649afd215946cbbcb1, type: 3}
+  Collectible3: {fileID: 212945074246888636, guid: 3ccc701fd4c8fc74dac49ed3217b6865, type: 3}
 --- !u!114 &1731816494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1700,6 +1705,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8baa77ee8685564c80831b43a309f32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  demoResponsiveUI: {fileID: 1731816495}
 --- !u!114 &1731816495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1716,6 +1722,8 @@ MonoBehaviour:
   timeBarSlider: {fileID: 1811957502}
   pidgeon: {fileID: 971879995}
   pointsText: {fileID: 111124988}
+  hr: 0
+  ItemGenerationScript: {fileID: 1731816493}
 --- !u!1 &1811957501
 GameObject:
   m_ObjectHideFlags: 0
@@ -2374,6 +2382,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1362113438891306793, guid: d1828e4f5a7049f4d84f0c62a11d3985, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 229.76
+      objectReference: {fileID: 0}
+    - target: {fileID: 2939067852057499751, guid: d1828e4f5a7049f4d84f0c62a11d3985, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 228.6
+      objectReference: {fileID: 0}
     - target: {fileID: 3388909374733217347, guid: d1828e4f5a7049f4d84f0c62a11d3985, type: 3}
       propertyPath: m_Name
       value: Background
@@ -2426,6 +2442,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5992994109168718220, guid: d1828e4f5a7049f4d84f0c62a11d3985, type: 3}
+      propertyPath: m_Size.x
+      value: 480
+      objectReference: {fileID: 0}
+    - target: {fileID: 6201498825407079772, guid: d1828e4f5a7049f4d84f0c62a11d3985, type: 3}
+      propertyPath: m_Size.x
+      value: 480
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282658367939149860, guid: d1828e4f5a7049f4d84f0c62a11d3985, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 589.6
+      objectReference: {fileID: 0}
     - target: {fileID: 7436328249004699897, guid: d1828e4f5a7049f4d84f0c62a11d3985, type: 3}
       propertyPath: cam
       value: 
@@ -2433,6 +2461,10 @@ PrefabInstance:
     - target: {fileID: 7436328249004699897, guid: d1828e4f5a7049f4d84f0c62a11d3985, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7997188417252557804, guid: d1828e4f5a7049f4d84f0c62a11d3985, type: 3}
+      propertyPath: m_Size.x
+      value: 1200
       objectReference: {fileID: 0}
     - target: {fileID: 8093307121746810620, guid: d1828e4f5a7049f4d84f0c62a11d3985, type: 3}
       propertyPath: cam

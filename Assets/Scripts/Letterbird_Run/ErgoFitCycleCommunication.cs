@@ -75,7 +75,7 @@ public class ErgometerScript : MonoBehaviour
     static int comPortNumber = 4; //edit this number to the fitting port number u put the usb cabel in!
     static IntPtr comPort;
     static byte address = 0;
-    public int hr = 0; //variable to read in other class to access HeartRate
+    public int hr = 90; //variable to read in other class to access HeartRate
     public int rpm = 0; //variable to read in other class to access RPM
 
     [DllImport("kernel32.dll")]

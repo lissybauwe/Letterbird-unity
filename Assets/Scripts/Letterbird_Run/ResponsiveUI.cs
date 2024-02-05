@@ -86,14 +86,46 @@ public class ResponsiveUI : MonoBehaviour
 
             PlayerPrefs.SetInt("Points", points);
 
-            SceneManager.LoadScene("EndOfRun");
+            int stage = PlayerPrefs.GetInt("Stage");
+
+            if(stage == 0)
+            {
+                SceneManager.LoadScene("EndOfRun");
+            }
+            if (stage == 1)
+            {
+                SceneManager.LoadScene("EndOfGlimmerwood");
+            }
+            if (stage == 2)
+            {
+                SceneManager.LoadScene("EndOfBlackmire");
+            }
+
         }
 
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
         {
+            int points = 0;
+            points = int.Parse(pointsText.text);
+
+            PlayerPrefs.SetInt("Points", points);
+
             if (PlayerPrefs.GetInt("Demo") == 0)
             {
-                SceneManager.LoadScene("EndOfRun");
+                int stage = PlayerPrefs.GetInt("Stage");
+
+                if (stage == 0)
+                {
+                    SceneManager.LoadScene("EndOfRun");
+                }
+                if (stage == 1)
+                {
+                    SceneManager.LoadScene("EndOfGlimmerwood");
+                }
+                if (stage == 2)
+                {
+                    SceneManager.LoadScene("EndOfBlackmire");
+                }
             }
             else
             {

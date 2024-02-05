@@ -12,14 +12,14 @@ public class Transitionmanager : MonoBehaviour
 
     public void home()
     {
-        //SceneManager.LoadScene("home"); //uncomment when scene created
+        SceneManager.LoadScene("home");
         Debug.Log("Home");
     }
 
     public void glimmerwood()
     {
         PlayerPrefs.SetInt("Stage",1);
-        //SceneManager.LoadScene("Startup_Glimmerwood");
+        SceneManager.LoadScene("Startup_Glimmerwood");
         Debug.Log("Glimmerwood");
     }
 
@@ -38,7 +38,7 @@ public class Transitionmanager : MonoBehaviour
 
     public void bridgewater()
     {
-        //SceneManager.LoadScene("Bridgewater");
+        SceneManager.LoadScene("Shop");
         Debug.Log("Bridgewater");
     }
 
