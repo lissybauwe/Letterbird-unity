@@ -19,49 +19,53 @@ public class ErgometerScript : MonoBehaviour
         opencomportDone = true;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (opencomportDone)
         {
-            if (i == 40) // request RPM at 0.5s
+            if (i == 25) // request RPM at 0.5s
             {
                 RequestRPM457();
+                UnityEngine.Debug.Log("RequestRPM");
             }
 
-            if (i == 70) // read RPM at 0.7s
+            if (i == 45) // read RPM at 0.7s
             {
                 int temp_rpm = ReadRPM457();
-                if(temp_rpm != 0)
+                if (temp_rpm != 0)
                 {
-                    if(temp_rpm > rpm - 10 || temp_rpm < rpm + 10)
+                    if (temp_rpm > rpm - 10 || temp_rpm < rpm + 10)
                     {
-                        if(temp_rpm != bikeRes)
-                        {
-                            rpm = temp_rpm;
-                        }
+                        rpm = temp_rpm;
+                        UnityEngine.Debug.Log("RPM: " + rpm);
+
                     }
                 }
+
             }
 
-            if (i == 110) // request HR at 1s
+            if (i == 50) // request HR at 1s
             {
                 RequestHR457();
+                UnityEngine.Debug.Log("RequestHR");
             }
 
-            if (i == 140) // read HR at 1.2s
+            if (i == 70) // read HR at 1.2s
             {
                 hr = ReadHR457();
+                UnityEngine.Debug.Log("HR: "+hr);
             }
 
-            if (i == 170) // setRes at 1.5s
+            if (i == 75) // setRes at 1.5s
             {
-                UnityEngine.Debug.Log("HR: " + hr + ", RPM: " + rpm);
+                UnityEngine.Debug.Log("set bikeRes: "+ bikeRes);
                 SetRes(bikeRes);
             }
 
-            if (i == 200) // reset i
+            if (i == 100) // reset i
             {
                 i = 0;
+                UnityEngine.Debug.Log("Reset");
             }
 
 

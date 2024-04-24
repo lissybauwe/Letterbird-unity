@@ -66,27 +66,37 @@ public class ItemGeneration : MonoBehaviour
         if (ergometerManager != null)
         {
             // Do something with the found GameObject
-            Debug.Log("Found GameObject with tag: " + ergometerManager.name);
+            //Debug.Log("Found GameObject with tag: " + ergometerManager.name);
             heartrateScript = ergometerManager.GetComponent<ConnectErgometer>();
             if (heartrateScript != null)
             {
-                Debug.Log("heartRateScript found");
+                //Debug.Log("heartRateScript found");
             }
             else
             {
-                Debug.Log("SCRIPT NOT FOUND");
+                //Debug.Log("SCRIPT NOT FOUND");
             }
         }
         else
         {
             // Handle the case when the GameObject with the specified tag is not found
-            Debug.LogError("No GameObject found with tag: YourTagName");
+            //Debug.LogError("No GameObject found with tag: YourTagName");
         }
     }
 
     private void Start()
     {
-        int maxHR = (int)(208 - 0.7 * playerAge);
+        int maxHR = 0;
+
+        if (PlayerPrefs.GetInt("Sex") == 1)
+        {
+            maxHR = (int)(208 - 0.7 * playerAge);
+        }
+
+        if (PlayerPrefs.GetInt("Sex") == 2)
+        {
+            maxHR = (int)(201 - 0.63 * playerAge);
+        }
 
         hr_wanted_lower = (int)(0.7 * maxHR);
         hr_wanted_higher = (int)(0.8 * maxHR);
@@ -240,21 +250,21 @@ public class ItemGeneration : MonoBehaviour
                 float optionB = GenerateRandomNumber(3f, 4f);
 
                 position.y = GenerateRandomNumber(0, 2) < 1 ? optionA : optionB;
-                Debug.Log("Mid Range");
+                //Debug.Log("Mid Range");
             }
 
             // if hr lower than wanted range: low to middle area // y = -5 - y = 0
             if (local_heartrate < hr_wanted_lower)
             {
                 position.y = GenerateRandomNumber(-3f, 0f);
-                Debug.Log("Too Low");
+                //Debug.Log("Too Low");
             }
 
             // if hr higher than wanted range: high to middle area // y = 4 - y = 0
             if (local_heartrate > hr_wanted_higher)
             {
                 position.y = GenerateRandomNumber(4f, 0f);
-                Debug.Log("Too High");
+                //Debug.Log("Too High");
             }
 
             // Choose which Cloud to spawn
@@ -296,14 +306,14 @@ public class ItemGeneration : MonoBehaviour
     {
         Vector2 position = transform.position;
         position.x += 10;
-        Debug.Log("Spawning!!!!");
+        //Debug.Log("Spawning!!!!");
 
         if (PlayerPrefs.GetInt("CollectedOne")!=1)
         {
             GameObject item = Collectible1;
 
             Instantiate(item, position, Quaternion.identity);
-            Debug.Log("One");
+            //Debug.Log("One");
         }
         else
         {
@@ -312,7 +322,7 @@ public class ItemGeneration : MonoBehaviour
                 GameObject item = Collectible2;
 
                 Instantiate(item, position, Quaternion.identity);
-                Debug.Log("Two");
+                //Debug.Log("Two");
             }
             else
             {
@@ -321,7 +331,7 @@ public class ItemGeneration : MonoBehaviour
                     GameObject item = Collectible3;
 
                     Instantiate(item, position, Quaternion.identity);
-                    Debug.Log("Three");
+                    //Debug.Log("Three");
                 }
             }
         }

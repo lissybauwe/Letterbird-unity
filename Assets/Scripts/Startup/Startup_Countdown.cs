@@ -45,7 +45,16 @@ public class Startup_Countdown : MonoBehaviour
             Debug.LogError("No GameObject found with tag: YourTagName");
         }
 
-        rpm_script.bikeRes = PlayerPrefs.GetInt("playerWeight")/2;
+        float bmi = PlayerPrefs.GetInt("playerWeight") / ((PlayerPrefs.GetInt("playerHeight")/ 100) * (PlayerPrefs.GetInt("playerHeight") / 100));
+
+        if (bmi < 25 || (PlayerPrefs.GetInt("playerPAL") == 1))
+            {
+            rpm_script.bikeRes = PlayerPrefs.GetInt("playerWeight") / 2;
+        }
+        else
+        {
+            rpm_script.bikeRes = PlayerPrefs.GetInt("playerWeight");
+        }
     }
 
     // Update is called once per frame

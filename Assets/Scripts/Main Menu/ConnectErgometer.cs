@@ -11,7 +11,7 @@ public class ConnectErgometer : MonoBehaviour
     public int bikeRes = 0; //variable to set in other class to change Resistance
     public static bool opencomportDone = false;
     public bool connected = false;
-
+    private static bool occupied = false;
     private void Awake()
     {
         DontDestroyOnLoad(this);
@@ -22,50 +22,53 @@ public class ConnectErgometer : MonoBehaviour
         opencomportDone = false;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (opencomportDone)
         {
             connected = true;
-            if (i == 40) // request RPM at 0.5s
+            if (i == 10) // request RPM at 0.5s
             {
                 RequestRPM457();
+                //UnityEngine.Debug.Log("RequestRPM");
             }
 
-            if (i == 70) // read RPM at 0.7s
+            if (i == 20) // read RPM at 0.7s
             {
                 int temp_rpm = ReadRPM457();
-                if (temp_rpm != 0)
+              if(bikeRes == temp_rpm||temp_rpm == 0)
                 {
-                    if (temp_rpm > rpm - 10 || temp_rpm < rpm + 10)
-                    {
-                        if (temp_rpm != bikeRes)
-                        {
-                            rpm = temp_rpm;
-                        }
-                    }
+                    UnityEngine.Debug.Log("RPM wrong");
                 }
+                else {
+                    rpm = temp_rpm;
+                    UnityEngine.Debug.Log("RPM: " + rpm);
+                }
+                
             }
 
-            if (i == 110) // request HR at 1s
+            if (i == 35) // request HR at 1s
             {
                 RequestHR457();
+                //UnityEngine.Debug.Log("RequestHR");
             }
 
-            if (i == 140) // read HR at 1.2s
+            if (i == 45) // read HR at 1.2s
             {
                 hr = ReadHR457();
+                //UnityEngine.Debug.Log("HR: " + hr);
             }
 
-            if (i == 170) // setRes at 1.5s
+            if (i == 70) // setRes at 1.5s
             {
-                //UnityEngine.Debug.Log("HR: " + hr + ", RPM: " + rpm);
+                //UnityEngine.Debug.Log("set bikeRes: " + bikeRes);
                 SetRes(bikeRes);
             }
 
-            if (i == 200) // reset i
+            if (i == 80) // reset i
             {
                 i = 0;
+                //UnityEngine.Debug.Log("Reset");
             }
 
 
@@ -121,6 +124,7 @@ public class ConnectErgometer : MonoBehaviour
 
     static void RequestRPM457()
     {
+        occupied = true;
         byte[] buffer = { 0x01, 0x44, 0x03, 0x46, 0x17 };
         uint written = 0;
         WriteFile(comPort, buffer, 5, out written, IntPtr.Zero);
@@ -139,8 +143,10 @@ public class ConnectErgometer : MonoBehaviour
             {
                 if (0 <= rpm && rpm <= 150)
                 {
+                    occupied = false;
                     return rpm;
                 }
+                occupied = false;
                 return 0;
             }
             else if (i == 3)
@@ -156,6 +162,7 @@ public class ConnectErgometer : MonoBehaviour
                 rpm += ((char)b - '0');
             }
         }
+        occupied = false;
         return rpm;
     }
 
@@ -230,6 +237,7 @@ public class ConnectErgometer : MonoBehaviour
 
     static int SetResistance457(int resistance)
     {
+
         if (resistance < 0)
             resistance = 0;
         if (resistance > 400)
@@ -238,6 +246,9 @@ public class ConnectErgometer : MonoBehaviour
         char[] resChars = resistance.ToString("D3").ToCharArray();
 
         isReadingRPM = 1;
+
+        if (occupied) { return resistance; }
+
         byte[] buffer = { 0x01, 0x57, 0x02, (byte)resChars[0], (byte)resChars[1], (byte)resChars[2], 0x03, 0x00, 0x17 };
         byte checksum = ComputeChecksum457(buffer);
         buffer[7] = checksum;
@@ -317,12 +328,15 @@ public class ConnectErgometer : MonoBehaviour
 
     static void SetRes(int bikeResistance)
     {
-        while (isReadingRPM != 0)
-        {
-            Thread.Sleep(1);
-        }
+        if (!occupied) {
 
-        bikeResistance = SetResistance457(bikeResistance);
+            while (isReadingRPM != 0)
+            {
+                Thread.Sleep(1);
+            }
+
+            bikeResistance = SetResistance457(bikeResistance);
+        }
     }
 
     static int lastRpm;

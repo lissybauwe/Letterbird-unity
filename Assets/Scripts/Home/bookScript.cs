@@ -7,6 +7,7 @@ public class bookScript : MonoBehaviour
     public Animator bookAnimator;
     public GameObject closedBook;
     public GameObject pageOne;
+    public GameObject Collection;
     public GameObject pageTwo;
 
 
@@ -19,6 +20,7 @@ public class bookScript : MonoBehaviour
     {
         closedBook.SetActive(false);
         pageOne.SetActive(true);
+        Collection.SetActive(true);
     }
 
     public void closeBookScreen()

@@ -75,6 +75,17 @@ public class MainMenu : MonoBehaviour
         }
     }
 
+    public void saveSexMale()
+    {
+        PlayerPrefs.SetInt("Sex", 1);
+        Debug.Log("Saved Male");
+    }
+
+    public void saveSexFemale()
+    {
+        PlayerPrefs.SetInt("Sex", 2);
+        Debug.Log("Saved Female");
+    }
 
     public void PlayGame()
     {
@@ -87,7 +98,7 @@ public class MainMenu : MonoBehaviour
     public void PlayDemo()
     {
         PlayerPrefs.SetInt("Demo",1);
-        SceneManager.LoadScene("Startup");
+        SceneManager.LoadScene("Startup_Blackmire");
     }
 
     public void Quit()

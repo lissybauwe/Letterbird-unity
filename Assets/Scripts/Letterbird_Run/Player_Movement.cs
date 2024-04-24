@@ -15,12 +15,12 @@ public class Player_Movement : MonoBehaviour
     private Vector3 initialPosition;
     private Vector3 lowerPosition;
     public float aimRPM = 60f;
-    public float transitionDuration = 1.0f;
+    private float transitionDuration = 0.7f;
     private float transitionTimer = 0.0f;
-    public float minRPM = 40f;
-    public float maxRPM = 80f;
-    public float minY = -3f;
-    public float maxY = 4f;
+    private float minRPM = 40f;
+    private float maxRPM = 80f;
+    private float minY = -3f;
+    private float maxY = 4f;
 
     private void Awake()
     {
@@ -31,7 +31,7 @@ public class Player_Movement : MonoBehaviour
         if (ergometerManager != null)
         {
             // Do something with the found GameObject
-            Debug.Log("Found GameObject with tag: " + ergometerManager.name);
+            //Debug.Log("Found GameObject with tag: " + ergometerManager.name);
             ergometer = ergometerManager.GetComponent<ConnectErgometer>();
             if (ergometer != null)
             {
@@ -53,13 +53,14 @@ public class Player_Movement : MonoBehaviour
     void Update()
     {
         float verticalInput = Input.GetAxis("Vertical");
-        if ((local_rpm != ergometer.rpm || verticalInput != 0) && !calculatePos || Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Alpha6) || Input.GetKeyDown(KeyCode.Alpha7) || Input.GetKeyDown(KeyCode.Alpha8))
+        int ergometer_rpm = ergometer.rpm;
+        if ((local_rpm != ergometer_rpm || verticalInput != 0) || Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Alpha6) || Input.GetKeyDown(KeyCode.Alpha7) || Input.GetKeyDown(KeyCode.Alpha8))
         {
             calculatePos = true;
-            local_rpm = ergometer.rpm;
+            local_rpm = ergometer_rpm;
             changeHeight();
         }
-        //Debug.Log(initialPosition + "|||" + currentPosition);
+        //Debug.Log(ergometer_rpm);
         transitionTimer += Time.deltaTime;
         float t = Mathf.Clamp01(transitionTimer / transitionDuration);
 

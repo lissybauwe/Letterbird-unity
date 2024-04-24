@@ -22,6 +22,7 @@ public class ResponsiveUI : MonoBehaviour
     private string height;
     private string age;
     private int heartrate;
+    private string sex;
 
     private void Awake()
     {
@@ -33,7 +34,14 @@ public class ResponsiveUI : MonoBehaviour
         height = PlayerPrefs.GetInt("playerHeight").ToString();
         age = PlayerPrefs.GetInt("playerAge").ToString();
 
-        writeScript.writeData("Time","Heartrate", "Weight", "Age", "Height");
+        if (PlayerPrefs.GetInt("Sex") == 1)
+        {
+            sex = "male";
+        }
+        else
+        {
+            sex = "female";
+        }
 
         // Find a GameObject with the specified tag
         GameObject ergometerManager = GameObject.FindWithTag("ergometer");
@@ -42,24 +50,29 @@ public class ResponsiveUI : MonoBehaviour
         if (ergometerManager != null)
         {
             // Do something with the found GameObject
-            Debug.Log("Found GameObject with tag: " + ergometerManager.name);
+            //Debug.Log("Found GameObject with tag: " + ergometerManager.name);
             heartRateScript = ergometerManager.GetComponent<ConnectErgometer>();
             if (heartRateScript != null)
             {
-                Debug.Log("heartRateScript found");
+                //Debug.Log("heartRateScript found");
             }
             else
             {
-                Debug.Log("SCRIPT NOT FOUND");
+                //Debug.Log("SCRIPT NOT FOUND");
             }
         }
         else
         {
             // Handle the case when the GameObject with the specified tag is not found
-            Debug.LogError("No GameObject found with tag: YourTagName");
+            //Debug.LogError("No GameObject found with tag: YourTagName");
         }
 
         StartCoroutine(WriteCSV());
+    }
+
+    private void Start()
+    {
+        writeScript.writeData("Time", "Heartrate", "Weight", "Age", "Height","Sex");
     }
 
     IEnumerator WriteCSV()
@@ -68,7 +81,7 @@ public class ResponsiveUI : MonoBehaviour
         {
             yield return new WaitForSeconds(0.5f);
 
-            writeScript.writeData(currentTime.ToString(), heartrate.ToString(), weight.ToString(), age.ToString(), height.ToString());
+            writeScript.writeData(currentTime.ToString(), heartrate.ToString(), weight.ToString(), age.ToString(), height.ToString(), sex);
         }
     }
 

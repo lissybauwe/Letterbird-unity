@@ -25,6 +25,7 @@ public class DemoResponsiveUI : MonoBehaviour
     private int weight;
     private int height;
     private int age;
+    private string sex;
 
     public ItemGeneration ItemGenerationScript;
 
@@ -34,12 +35,29 @@ public class DemoResponsiveUI : MonoBehaviour
         if (demoTime != 0) { totalTime = demoTime * 60f; }
         Debug.Log("Total-Time: " + totalTime);
 
-        maxHR = (int)(208 - 0.7 * PlayerPrefs.GetInt("playerAge"));
         weight = PlayerPrefs.GetInt("playerWeight");
         height = PlayerPrefs.GetInt("playerHeight");
         age = PlayerPrefs.GetInt("playerAge");
+        if (PlayerPrefs.GetInt("Sex") == 1)
+        {
+            sex = "male";
+        }
+        else
+        {
+            sex = "female";
+        }
 
-        writeScript.writeData("Time", "Heartrate", "Weight", "Age", "Height");
+        maxHR = 0;
+
+        if (PlayerPrefs.GetInt("Sex") == 1)
+        {
+            maxHR = (int)(208 - 0.7 * age);
+        }
+
+        if (PlayerPrefs.GetInt("Sex") == 2)
+        {
+            maxHR = (int)(201 - 0.63 * age);
+        }
 
         //Generate Time Frame in which the Collectible is spawned
         float randomPercentage = Random.Range(60f, 80f);
@@ -78,6 +96,11 @@ public class DemoResponsiveUI : MonoBehaviour
         StartCoroutine(WriteCSV());
     }
 
+    private void Start()
+    {
+        writeScript.writeData("Time", "Heartrate", "Weight", "Age", "Height", "Sex");
+    }
+
     IEnumerator WriteCSV()
     {
         while (true)
@@ -85,7 +108,7 @@ public class DemoResponsiveUI : MonoBehaviour
 
             yield return new WaitForSeconds(0.5f);
 
-            writeScript.writeData(currentTime.ToString(),hr.ToString(), weight.ToString(), age.ToString(), height.ToString());
+            writeScript.writeData(currentTime.ToString(),hr.ToString(), weight.ToString(), age.ToString(), height.ToString(),sex);
         }
     }
 

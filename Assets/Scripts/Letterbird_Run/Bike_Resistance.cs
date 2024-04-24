@@ -7,7 +7,6 @@ using UnityEngine.UIElements;
 
 public class Bike_Resistance : MonoBehaviour
 {
-    //public ErgometerScript heartRateScript;
     private ConnectErgometer heartRateScript;
     private int playerAge;
     private int playerWeight;
@@ -41,6 +40,7 @@ public class Bike_Resistance : MonoBehaviour
     public DemoResponsiveUI demoResponsiveUI;
     int hr_wanted_higher;
     int hr_wanted_lower;
+    private bool acl = false;
 
 
 
@@ -51,7 +51,17 @@ public class Bike_Resistance : MonoBehaviour
         playerHeight = PlayerPrefs.GetInt("playerHeight");
         int intPal = PlayerPrefs.GetInt("playerPAL");
 
-        int maxHR = (int)(208 - (0.7 * playerAge));
+        int maxHR = 0;
+
+        if (PlayerPrefs.GetInt("Sex") == 1)
+        {
+            maxHR = (int)(208 - 0.7 * playerAge);
+        }
+
+        if (PlayerPrefs.GetInt("Sex") == 2)
+        {
+            maxHR = (int)(201 - 0.63 * playerAge);
+        }
 
         hr_wanted_lower = (int)(0.7 * maxHR);
         hr_wanted_higher = (int)(0.8 * maxHR);
@@ -66,11 +76,11 @@ public class Bike_Resistance : MonoBehaviour
         if (ergometerManager != null)
         {
             // Do something with the found GameObject
-            Debug.Log("Found GameObject with tag: " + ergometerManager.name);
+            //Debug.Log("Found GameObject with tag: " + ergometerManager.name);
             heartRateScript = ergometerManager.GetComponent<ConnectErgometer>();
             if (heartRateScript != null)
             {
-                Debug.Log("heartRateScript found");
+                //Debug.Log("heartRateScript found");
             }
             else
             {
@@ -91,7 +101,18 @@ public class Bike_Resistance : MonoBehaviour
         // variables are declared here
 
         HR1 = 0; HR2 = 0; countHR1 = 0; avgHR1 = 0; avgHR1 = 0; avgHR2 = 0;
-        pulseMax = Mathf.RoundToInt((float)(208 - (0.7 * playerAge)));
+
+        if (PlayerPrefs.GetInt("Sex") == 1)
+        {
+            pulseMax= Mathf.RoundToInt((float)(208 - (0.7 * playerAge)));
+        }
+
+        if (PlayerPrefs.GetInt("Sex") == 2)
+        {
+            pulseMax = Mathf.RoundToInt((float)(201 - (0.63 * playerAge)));
+        }
+
+
         pulseIntended = Mathf.RoundToInt((float)0.75 * pulseIntended);
         bmi = playerWeight / ((playerHeight / 100) * (playerHeight / 100));
 
@@ -116,6 +137,7 @@ public class Bike_Resistance : MonoBehaviour
         //Load Levels will be calculated by seconds
         if (PlayerPrefs.GetInt("useHR") != 1)
         {
+            //Debug.Log("Problem");
             int local_heartrate = demoResponsiveUI.hr;
             // if hr in wanted range: middle area // y = 1 - y = -2
             if (local_heartrate <= hr_wanted_higher && local_heartrate >= hr_wanted_lower)
@@ -137,7 +159,7 @@ public class Bike_Resistance : MonoBehaviour
         }
         else
         {
-            if (i >= 10) //translates round about to a second (needs to be 50)
+            if (i >= 50) //translates round about to a second (needs to be 50)
             {
                 seconds++;
                 //Debug.Log("!!! " + seconds);
@@ -224,7 +246,7 @@ public class Bike_Resistance : MonoBehaviour
             // 4:00 - 4:59 - Calculated Target Load (CTL)
             //-------------------------------------------
 
-            if (seconds >= 240 && seconds < 300 && lastResCalc != seconds)
+            if (seconds >= 240 && seconds < 300 && lastResCalc != seconds && !acl)
             {
                 //Debug.Log("CTL: " + seconds);
                 lastResCalc = seconds;
@@ -252,17 +274,23 @@ public class Bike_Resistance : MonoBehaviour
                     newRes = minRes;
                 }
 
+                if(heartRateScript.hr >0.8 * pulseMax)
+                {
+                    acl = true;
+                }
+
             }
 
             // 5:00 - 10:00 - Automatic Load Control (ALC)
             //--------------------------------------------
 
-            if (seconds >= 300 && seconds < 601 && lastResCalc != seconds)
+            if ((seconds >= 300 && seconds < 601 && lastResCalc != seconds) || acl)
             {
                 lastResCalc = seconds;
                 //Debug.Log("ALC: " + seconds);
+                int heartrate = heartRateScript.hr;
 
-                if (heartRateScript.hr > 0.8 * pulseMax)
+                if (heartrate > 0.8 * pulseMax)
                 {
                     if ((alc_timer == 0 || alc_timer <= seconds - 60) && newRes > minRes)
                     {
@@ -271,7 +299,7 @@ public class Bike_Resistance : MonoBehaviour
                     }
                 }
 
-                if (heartRateScript.hr < 0.7 * pulseMax)
+                if (heartrate < 0.7 * pulseMax)
                 {
                     if ((alc_timer == 0 || alc_timer <= seconds - 60) && newRes < maxRes)
                     {

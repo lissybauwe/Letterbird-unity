@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class CSVManager : MonoBehaviour
 {
-    public string filePath = "Assets/CSVFiles/playerData.csv";
+    public string filePath;
 
-    public void writeData(string time, string heartrate, string weight, string age, string height)
+    private void Awake()
+    {
+        filePath = Application.persistentDataPath + "playerData.csv";
+    }
+    public void writeData(string time, string heartrate, string weight, string age, string height, string sex)
     {
         // Save the modified data back to the CSV file
-        AppendCSV(new string[] { time, heartrate, weight, age, height });
+        AppendCSV(new string[] { time, heartrate, weight, age, height, sex });
     }
 
     void AppendCSV(string[] rowData)
@@ -21,11 +25,11 @@ public class CSVManager : MonoBehaviour
                 writer.WriteLine(string.Join(";", rowData));
             }
 
-            Debug.Log("CSV file updated and appended to: " + filePath);
+            //Debug.Log("CSV file updated and appended to: " + filePath);
         }
         catch (IOException e)
         {
-            Debug.LogError("Error appending to CSV file: " + e.Message);
+            //Debug.LogError("Error appending to CSV file: " + e.Message);
         }
     }
 }
