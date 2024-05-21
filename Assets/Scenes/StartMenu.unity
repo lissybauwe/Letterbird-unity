@@ -284,7 +284,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &123579100
 RectTransform:
   m_ObjectHideFlags: 0
@@ -325,6 +325,8 @@ MonoBehaviour:
   weightInputField: {fileID: 0}
   heightInputField: {fileID: 0}
   demoTimeInputField: {fileID: 0}
+  toggle: 1
+  toggleHR: 1
   connectErgometer: {fileID: 0}
   connectedImage: {fileID: 0}
   notConnected: {fileID: 0}
@@ -982,7 +984,7 @@ GameObject:
   - component: {fileID: 415467890}
   - component: {fileID: 415467889}
   m_Layer: 5
-  m_Name: BackButton (1)
+  m_Name: APIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1090,28 +1092,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 123579099}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 589363683}
+        m_TargetAssemblyTypeName: RestAPI, Assembly-CSharp
+        m_MethodName: GetDataFromAPI
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 589363680}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: https://e7ed7610-5ead-4d79-98f3-0419a46a8954.mock.pstmn.io
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &432864900
@@ -1847,7 +1837,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &589363681
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1887,6 +1877,8 @@ MonoBehaviour:
   weightInputField: {fileID: 362451827}
   heightInputField: {fileID: 1054917726}
   demoTimeInputField: {fileID: 1479983604}
+  toggle: 1
+  toggleHR: 1
   connectErgometer: {fileID: 0}
   connectedImage: {fileID: 2146590260}
   notConnected: {fileID: 382326314}
