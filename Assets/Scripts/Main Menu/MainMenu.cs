@@ -13,8 +13,8 @@ public class MainMenu : MonoBehaviour
     public TMP_InputField weightInputField;
     public TMP_InputField heightInputField;
     public TMP_InputField demoTimeInputField;
-    private bool toggle = true;
-    private bool toggleHR = true;
+    public bool toggle = true;
+    public bool toggleHR = true;
     public ConnectErgometer connectErgometer;
     public GameObject connectedImage;
     public GameObject notConnected;
